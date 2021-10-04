@@ -25,6 +25,7 @@ echo 9) Commit and Push Your Work to Remote Feature Branch
 echo 10) Syncing(git pull) remote development branch with local feature branch
 echo 11) Sync Databricks Notebooks with DevOps
 echo 12) Exit
+echo 13) Pull changes from template
 echo.
 
 set /p choice="Select options 1-11 : "
@@ -40,6 +41,7 @@ if %choice% == 9 goto label9
 if %choice% == 10 goto label10
 if %choice% == 11 goto label11
 if %choice% == 12 exit
+if %choice% == 13 goto label13
 
 :label1
 cls
@@ -216,6 +218,22 @@ echo.
 call black ./
 echo.
 call databricks workspace import_dir "%cd%\" "%r_folder%" -o
+PAUSE
+cls
+goto main
+
+:label13
+cls
+echo ==============================================
+echo Pull changes from template repository
+echo ==============================================
+echo.
+git checkout development
+git fetch template
+echo.
+git rebase template/master
+echo.
+git push origin development --force
 PAUSE
 cls
 goto main
